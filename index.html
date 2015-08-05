@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=1024" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <title>Brief introduction on Dojo widgets creation</title>
+
+        <meta http-equiv="content-type" content="text/html;charset=UTF-8">
+        <meta name="keywords" content="dojo,widget,creation,introduction,acanimal,acuriousanimal" />
+        <meta name="description" content="Brief introduction on Dojo widgets creation" />
+        <meta name="author" content="Antonio Santiago" />
+
+        <link href="http://fonts.googleapis.com/css?family=Open+Sans:regular,semibold,italic,italicsemibold|PT+Sans:400,700,400italic,700italic|PT+Serif:400,700,400italic,700italic" rel="stylesheet" />
+        <link href="css/impress-demo.css" rel="stylesheet" />
+
+        <link rel="shortcut icon" href="favicon.png" />
+        <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+
+        <!-- Include highlight.js library -->
+        <link rel="stylesheet" href="http://yandex.st/highlightjs/7.0/styles/magula.min.css">
+        <script src="http://yandex.st/highlightjs/7.0/highlight.min.js"></script>
+        <script type="text/javascript">
+            hljs.tabReplace = '    '; // 4 spaces
+            hljs.initHighlightingOnLoad();
+        </script>
+    </head>
+
+    <body class="impress-not-supported">
+
+        <div class="fallback-message">
+            <p>Your browser <b>doesn't support the features required</b> by impress.js, so you are presented with a simplified version of this presentation.</p>
+            <p>For the best experience please use the latest <b>Chrome</b>, <b>Safari</b> or <b>Firefox</b> browser.</p>
+        </div>
+
+        <div id="impress">
+
+            <div class="step slide" data-x="0" data-y="-1000">
+                <h1 class="center" style="font-size: 85px;">Brief introduction on 
+                    <span style="color: #3366FF;">Dojo</span> <span style="color: #CC9933;">Widgets</span> creation</h1>
+            </div>
+            
+            <!-- Modularity and AMD presentation -->
+            <div class="step slide" data-x="0" data-y="0">
+                <h1>Introduction...</h1>
+                <q>Every day applications using JavaScript:</q>
+                <ul>
+                    <li>becomes more complex</li>
+                    <li>makes use of third party libraries (don't reinvent the wheel)</li>
+                </ul>
+                
+                <q>This means the browser need to load more JavaScript code</q>
+            </div>
+
+            <div class="step slide" data-x="0" data-y="1000" data-rotate-y="0">
+                <h1 class="center"><strong>Modularity...</strong></h1>
+            </div>
+
+            <div class="step slide" data-x="0" data-y="1000" data-rotate-y="180">
+                <q>An application is modular means:</q>
+
+                <ul>
+                    <li>it is composed by a set of <em>pieces</em></li>
+                    <li>highly decoupled</li>
+                    <li>with clearly separated and reusable functionalities</li>
+                </ul>
+            </div>
+
+            <div class="step slide" data-x="0" data-y="2000" data-rotate-y="180">
+                <h1>AMD <em>(Asynchronous Module Definition)</em></h1>
+
+                <q><em>The Asynchronous Module Definition API specifies a mechanism 
+                    for defining modules such that the module and its dependencies 
+                    can be asynchronously loaded</em></q>
+                
+                <q><strong>Load only what is required !!!</strong></q>
+            </div>
+
+            <div class="step slide" data-x="0" data-y="3000" data-rotate-y="180">
+                <h1>Create modules with <strong>Define</strong></h1>
+                <pre><code class="javascript">
+define('myModule',          // Module name
+    ['foo', 'bar'],         // Dependencies
+    function ( foo, bar ) { // Dependencies comes here as parameters
+        var myModule = {    // Module definition
+            doStuff: function(){
+                console.log('Si ten gullongs !!!');
+            }
+        }
+        return myModule;    // Return the module
+    }
+);
+                </code></pre>
+            </div>
+
+            <div class="step slide" data-x="0" data-y="4000" data-rotate-y="180">
+                <h1>Use modules with <strong>Require</strong></h1>
+                <pre><code class="javascript">
+require(
+    ['foo', 'bar'],             // Dependencies
+    function ( foo, bar ) {     // Dependencies comes here as parameters
+        foo.doSomething();      // Rest of your code here
+    }
+);
+                </code></pre>                
+            </div>
+
+            <div class="step slide" data-x="0" data-y="5000" data-rotate-y="180">
+                <h1>References </h1>
+                
+                <ul>
+                    <li><a href="http://wiki.commonjs.org/wiki/Modules/AsynchronousDefinition">http://wiki.commonjs.org/wiki/Modules/AsynchronousDefinition</a></li>
+                    <li><a href="http://addyosmani.com/writing-modular-js">http://addyosmani.com/writing-modular-js</a></li>
+                    <li><a href="http://requirejs.org/docs/whyamd.html#amd">http://requirejs.org/docs/whyamd.html#amd</a></li>
+                </ul>
+            </div>
+
+            <!-- Dojo widgets intro -->
+            <div class="step slide" data-x="0" data-y="6000" data-rotate-y="180" data-rotate-x="90">
+                <h1>Dojo Widgets</h1>
+                
+                <ul>
+                    <li>Set of visual components: buttons, <em>grids</em>, menu, toolbars, ...</li>
+                    <li>Encapsulates the view (HTML+CSS) plus the widget's controller (JavaScript)</li>
+                </ul>
+                
+                <q><strong>Note:</strong> The controller handles the widget behavior
+                    to external events, allows to interact with the control, get/set values, etc</q>
+                
+            </div>
+            
+            <div class="step slide" data-x="0" data-y="6000" data-z="1000" data-rotate-y="180" data-rotate-x="90">
+                <h1>Class inheritance...</h1>
+                
+                <q>JavaScript is prototype inheritance but Dojo allows us to simulate class
+                    inheritance using <strong>declare</strong></q>
+                
+                <pre><code class="javascript">
+define(['dojo/_base/lang', 'dojo/_base/declare'], // Dependencies
+       function(lang, declare){
+            // Define your own class
+            return declare(null, // The superclass (null means none)
+                {  // Then define your own class
+                constructor: function(name, age, residence){
+                this.name = name;
+                this.age = age;
+                this.residence = residence;
+                }
+            });
+});                
+                </code></pre>
+                
+            </div>
+
+            <div class="step slide" data-x="0" data-y="6000" data-z="2000" data-rotate-y="180" data-rotate-x="90">
+                <h1>How to define a Dojo widget...</h1>
+                <pre><code class="javascript">
+define([  // Here is the set of dependencies on other modules
+    "dojo/_base/declare", 
+    "dijit/_WidgetBase", 
+    "dijit/_TemplatedMixin", 
+    "dijit/_WidgetsInTemplateMixin",
+    "dojo/text!custom/templates/MyWidget.html", // The template file
+    "dijit/form/Button"
+    ], 
+    function(declare, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, template) {
+        return declare("custom.MyWidget",   // The new class name
+                        [_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin],  // Dependencies
+                        {   
+            // The code goes here
+            templateString: template,
+            ...
+        });
+    });                    
+                </code></pre>
+            </div>
+
+            <div class="step slide" data-x="0" data-y="6000" data-z="3000" data-rotate-y="180" data-rotate-x="90">
+                <h1>Widgets inheritance</h1>
+                
+                <ul>
+                    <li><strong>_WidgetBase</strong>: Basic set of properties and methods</li>
+                    <li><strong>_TemplatedMixin</strong>: Required if you want to use a template for your view</li>
+                    <li><strong>_WidgetsInTemplateMixin</strong>: Required if your widget template makes use of other widgets</li>
+                </ul>
+                
+                <strong style="font-size: 48px;">Be aware with some documentation, it is out of date !!!</strong>
+            </div>
+
+            <div class="step slide" data-x="0" data-y="6000" data-z="4000" data-rotate-y="180" data-rotate-x="90">
+                <h1>Widgets life cycle (I)</h1>
+                <div style="font-size: 24px; line-height: 20px;">
+                    <q><strong>constructor</strong>: Common for all prototypes</q>
+                    <q><strong>postscript</strong>: Common for all classes created with <em>declare</em></q>
+                    <q>&nbsp;&nbsp;&nbsp;&nbsp;<strong>create</strong>: </q>
+                    <q>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>postMixInProperties</strong>: </q>
+                    <q>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>buildRendering</strong>: </q>
+                    <q>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>postCreate</strong>: 
+                        Probably the main method. Allows to initialize the widget before the DOM code is added to the document.</q>
+
+                    <q><strong>startup</strong>: Probably the second most important method. Executed once the widget code
+                        is added to the document.</q>
+                </div>
+                
+                <q><strong>NOTE:</strong> <em>Startup</em> must be executed manually when you create a widget programmatically</q>
+            </div>
+            
+            <div class="step slide" data-x="0" data-y="6000" data-z="5000" data-rotate-y="180" data-rotate-x="90">
+                <h1>Widgets life cycle (II)</h1>
+                <div style="font-size: 24px; line-height: 20px;">
+                    <q><strong>destroyRecursive</strong>: Usually is the method to be executed
+                        to destroy a widget.</q>
+                    <q>&nbsp;&nbsp;&nbsp;&nbsp;<strong>destroyDescendants</strong>: </q>
+                    <q>&nbsp;&nbsp;&nbsp;&nbsp;<strong>destroy</strong>: This is the method you need
+                        to implement in your widgets.</q>
+                    <q>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>uninitialize</strong>: </q>
+                    <q>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>destroyRendering</strong>: </q>
+                </div>
+                
+                <q><strong>NOTE:</strong> Within the <em>destroy</em> method ensure to call the superclass one too.</q>
+            </div>
+
+            <div class="step slide" data-x="0" data-y="6000" data-z="6000" data-rotate-y="180" data-rotate-x="90">
+                <h1>Widgets Events</h1>
+                
+                <q><strong>_WidgetBase</strong> offers methods to work with events and more</q>
+                
+                <ul>
+                    <li><strong>on</strong>: Call specified function when event occurs</li>
+                    <li><strong>connect/disconnect</strong>: Connects specified obj/event to specified method of the object 
+                        and registers for <em>disconnect()</em> on widget destroy</li>
+                    <li><strong>subscribe/unsubscribe</strong>: Subscribes to the specified topic and calls the specified method 
+                        of the object and registers for <em>unsubscribe()</em> on widget destroy.</li>
+                </ul>
+            </div>
+
+            <div class="step slide" data-x="0" data-y="6000" data-z="7000" data-rotate-y="180" data-rotate-x="90">
+                <h1>References</h1>
+                
+                <ul>
+                    <li><a href="http://dojotoolkit.org/reference-guide/1.7/dojo/declare.html">http://dojotoolkit.org/reference-guide/1.7/dojo/declare.html</a></li>
+                    <li><a href="http://dojotoolkit.org/documentation/tutorials/1.7/understanding_widgetbase/">http://dojotoolkit.org/ documentation/ tutorials/1.7/ understanding_widgetbase/</a></li>
+                    <li><a href="http://dojotoolkit.org/reference-guide/1.7/dojo/on.html">http://dojotoolkit.org/ reference-guide/1.7/ dojo/on.html</a></li>
+                </ul>
+
+            </div>
+
+        </div>
+
+        <!-- Hint section -->
+        <div class="hint">
+            <p>Use a spacebar or arrow keys to navigate</p>
+        </div>
+        <script>
+            if ("ontouchstart" in document.documentElement) { 
+                document.querySelector(".hint").innerHTML = "<p>Tap on the left or right to navigate</p>";
+            }
+        </script>
+
+        <script src="js/impress.js"></script>
+        <script>impress().init();</script>
+
+    </body>
+</html>
